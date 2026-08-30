@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Set the path to your PDF directory (expand ~ automatically)
+PDF_DIR="${HOME}/Documents/Papers"
+
+# Ensure directory exists
+if [[ ! -d "$PDF_DIR" ]]; then
+    notify-send "PDF Launcher" "Directory not found: $PDF_DIR"
+    exit 1
+fi
+
+# Find all PDF files (case-insensitive) relative to PDF_DIR
+# Using fd if installed (faster), falling back to find
+if command -v fd >/dev/null 2>&1; then
+    CHOSEN_PDF=$(fd -e pdf --base-directory "$PDF_DIR" | rofi -dmenu -i -p "Open PDF" -matching fuzzy)
+else
+    CHOSEN_PDF=$(cd "$PDF_DIR" && find . -type f -iname "*.pdf" | sed 's|^\./||' | rofi -dmenu -i -p "Open PDF" -matching fuzzy)
+fi
+
+# Open selected PDF in Firefox
+if [[ -n "$CHOSEN_PDF" ]]; then
+    firefox "$PDF_DIR/$CHOSEN_PDF" >/dev/null 2>&1 &
+fi
