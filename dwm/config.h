@@ -61,24 +61,25 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *roficmd[]  = { "rofi", "-show", "drun", NULL };
 static const char *termcmd[]  = { "xfce4-terminal", NULL };
 static const char *firefoxcmd[] = { "firefox", NULL };
 static const char *thunarcmd[]  = { "thunar", NULL };
 static const char *flameshotcmd[] = { "flameshot", "gui", NULL };
-static const char *obsidiancmd[] = { "obsidian", NULL };
+static const char *obsidiancmd[] = { "/home/kuro/AppImages/Obsidian-1.12.7.AppImage", NULL };
 static const char *rangercmd[]  = { "xfce4-terminal", "-e", "ranger", NULL };
+static const char *mpctogglecmd[] = { "mpc", "toggle", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ Mod1Mask,                     XK_F1,     spawn,          {.v = roficmd } },
+	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = firefoxcmd } },
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          {.v = thunarcmd } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = flameshotcmd } },
 	{ MODKEY|ShiftMask,             XK_o,      spawn,          {.v = obsidiancmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("~/.local/bin/rofi-pdf-browser") },
+	{ MODKEY,                       XK_x,      spawn,          SHCMD("~/.config/bspwm/scripts/power") },
+	{ MODKEY,                       XK_m,      spawn,          {.v = mpctogglecmd } },
 	{ ControlMask|Mod1Mask,         XK_r,      spawn,          {.v = rangercmd } },
 	
 	/* DWM layout and window management */
@@ -86,7 +87,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } }, /* Restore master increment */
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } }, /* Restore master decrement */
+	{ MODKEY,                       XK_p,      incnmaster,     {.i = -1 } }, /* Restore master decrement */
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
@@ -94,12 +95,12 @@ static const Key keys[] = {
 	
 	/* Close window */
 	{ MODKEY,                       XK_c,      killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	
 	/* Layout toggles */
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	// I am using Win+f for full-screen/monocle
+	// { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	
